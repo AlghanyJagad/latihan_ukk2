@@ -20,4 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('admin/home', 'HomeController@adminHome')->name('admin.home')->middleware('is_admin');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('siswas/cetak_pdf', 'SiswaController@cetak_pdf');
 Route::resource('siswas','SiswaController');

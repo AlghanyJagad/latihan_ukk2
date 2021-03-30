@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class SiswaController extends Controller
 {
@@ -64,7 +65,7 @@ class SiswaController extends Controller
             'jurusan' => $request->input('jurusan'),
         ]);
    
-        return redirect()->route('user.index')
+        return redirect()->route('home')
                         ->with('success','Anda berhasil mendaftar');
     }
 
@@ -129,5 +130,13 @@ class SiswaController extends Controller
   
         return redirect()->route('admin.home')
                         ->with('success','siswa deleted successfully');
+    }
+
+    public function cetak_pdf()
+    {
+    	$siswas = Siswa::all();
+ 
+    	$pdf = PDF::loadview('admin/siswa_pdf',['siswas'=>$siswas]);
+    	return $pdf->download('laporan-siswa-pdf');
     }
 }
