@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Siswa;
 use Illuminate\Http\Request;
+use App\User;
+use App\Siswa;
 use Illuminate\Support\Facades\Auth;
 
-class SiswaController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +15,11 @@ class SiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $siswas = Siswa::latest()->paginate(5);
-  
-        return view('admin.index',compact('siswas'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+    {
+        $id = Auth::user()->id;
+        $siswa = Siswa::all()->where('id', $id);
+        $count = $siswa->count();
+        return view('user.index', compact('siswa'), compact('count'));
     }
 
     /**
@@ -28,7 +29,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        return view('user.create');
     }
 
     /**
@@ -71,63 +72,45 @@ class SiswaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Siswa $siswa)
+    public function show($id)
     {
-        return view('admin.show',compact('siswa'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Siswa $siswa)
+    public function edit($id)
     {
-        return view('admin.edit',compact('siswa'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nis' => 'required',
-            'nama' => 'required',
-            'jns_kelamin' => 'required',
-            'tempat_lahir' => 'required',
-            'tgl_lahir' => 'required',
-            'alamat' => 'required',
-            'asal_sekolah' => 'required',
-            'kelas' => 'required',
-            'jurusan' => 'required',
-        ]);
-  
-        $siswa->update($request->all());
-   
-        return redirect()->route('admin.home')
-                        ->with('success','Anda berhasil mendaftar');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Siswa $siswa)
+    public function destroy($id)
     {
-        $siswa->delete();
-  
-        return redirect()->route('admin.home')
-                        ->with('success','siswa deleted successfully');
+        //
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Siswa;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        $id = Auth::user()->id;
+        $siswas = Siswa::all()->where('user_id', $id);
+        $count = $siswas->count();
+        return view('user.index', compact('siswas'), compact('count'));
     }
     /**
      * Show the application dashboard.
@@ -33,6 +37,9 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        return view('admin.index');
+        $siswas = Siswa::latest()->paginate(5);
+  
+        return view('admin.index',compact('siswas'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }
