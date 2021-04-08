@@ -25,7 +25,7 @@
 
     <link rel="stylesheet" href="{{ asset ('assets/css/style.css')}}">
     
-    <link rel="icon" type="image/png" href="/somewhere/myicon.png" />
+    <link rel="icon" type="image/png" href="assets/images/logo-wk.png">
     
   </head>
 <body>
